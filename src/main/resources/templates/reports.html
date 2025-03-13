@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Отчёты</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h2>Отчёт по поставкам</h2>
+<form method="get" action="/reports">
+    <label>Дата начала:</label>
+    <input type="date" name="startDate" required>
+    <label>Дата окончания:</label>
+    <input type="date" name="endDate" required>
+    <button type="submit">Сформировать</button>
+</form>
+
+<table border="1">
+    <tr>
+        <th>Поставщик</th>
+        <th>Продукт</th>
+        <th>Общий вес (кг)</th>
+        <th>Общая стоимость</th>
+    </tr>
+    <tr th:each="report : ${reports}">
+        <td th:text="${report.supplierName}"></td>
+        <td th:text="${report.productName}"></td>
+        <td th:text="${report.totalWeight}"></td>
+        <td th:text="${report.totalPrice}"></td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Внести поставку</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h2>Добавить новую поставку</h2>
+<form method="post" action="/supplies/add">
+    <label>Поставщик:</label>
+    <select name="supplierId" required>
+        <option th:each="supplier : ${suppliers}"
+                th:value="${supplier.id}"
+                th:text="${supplier.name}">
+        </option>
+    </select>
+
+    <label>Дата поставки:</label>
+    <input type="date" name="date" required>
+
+    <label>Продукты:</label>
+    <div id="product-list">
+        <div>
+            <select name="productIds" required>
+                <option th:each="product : ${products}"
+                        th:value="${product.id}"
+                        th:text="${product.name}">
+                </option>
+            </select>
+            <input type="number" name="weights" placeholder="Вес (кг)" required>
+            <input type="number" name="prices" placeholder="Цена за кг" required>
+        </div>
+    </div>
+    <button type="button" onclick="addProduct()">Добавить продукт</button>
+    <button type="submit">Сохранить</button>
+</form>
+
+<script>
+    function addProduct() {
+        let productList = document.getElementById('product-list');
+        let newProduct = productList.children[0].cloneNode(true);
+        productList.appendChild(newProduct);
+    }
+</script>
+</body>
+</html>

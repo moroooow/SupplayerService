@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Вход</title>
+</head>
+<body>
+<h2>Вход</h2>
+<form id="loginForm">
+    <label>Логин:</label>
+    <input type="text" id="username" name="username" required>
+
+    <label>Пароль:</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">Войти</button>
+</form>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert("Ошибка авторизации");
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+    });
+</script>
+
+<p th:if="${param.error}">Ошибка входа! Неправильный логин или пароль.</p>
+</body>
+</html>
